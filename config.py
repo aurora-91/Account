@@ -50,4 +50,3 @@ class Config:
 
     def ensure_dirs(self):
         Path(self.output_folder).mkdir(parents=True, exist_ok=True)
-        Path(self.thu_muc_kho).mkdir(parents=True, exist_ok=True)

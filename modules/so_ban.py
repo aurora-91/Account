@@ -36,7 +36,7 @@ def process_files(uploaded_files, dates: dict | None = None):
             fp = os.path.join(tmp, f.name)
             Path(fp).write_bytes(data)
 
-        config = Config(thu_muc_bienban=tmp, output_folder=tmp)
+        config = Config(thu_muc_bienban=tmp, output_folder=tmp, thu_muc_kho=tmp)
         result = run(config, date_overrides=dates)
 
         if not result['success']:

@@ -61,6 +61,11 @@ def main():
         message_kho = """
         Định dạng file kho hợp lệ:
         - File Excel .xlsx
+        - Ưu tiên sheet tên: "Kho"
+        - Nếu không có sheet "Kho", hệ thống sẽ tự tìm sheet gần giống như:
+            + Kho thường
+            + Kho định dạng
+            + Các sheet hợp lệ có cột MSISDN
         - Có cột MSISDN bắt buộc
         - Header nằm trong 8 dòng đầu
         - Có thể thêm các cột:
