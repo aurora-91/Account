@@ -49,4 +49,7 @@ class Config:
         return str(Path(self.output_folder) / self.ten_file_doi_soat)
 
     def ensure_dirs(self):
-        Path(self.output_folder).mkdir(parents=True, exist_ok=True)
+        try:
+            Path(self.output_folder).mkdir(parents=True, exist_ok=True)
+        except PermissionError:
+            pass 

@@ -37,7 +37,7 @@ def process_files(uploaded_files, dates: dict | None = None):
             Path(fp).write_bytes(data)
 
         config = Config(thu_muc_bienban=tmp, output_folder=tmp, thu_muc_kho=tmp)
-        result = run(config, date_overrides=dates)
+        result = run(config, date_overrides=dates, write_file=False)
 
         if not result['success']:
             return {
@@ -56,7 +56,7 @@ def process_files(uploaded_files, dates: dict | None = None):
             "message": result["message"]
         }
 
-def run(config: Config, date_overrides: Optional[dict[str, str]] = None) -> dict:
+def run(config: Config, date_overrides: Optional[dict[str, str]] = None, write_file: bool = True) -> dict:
     logger.info("═" * 50)
     logger.info(f"SO_BAN | Quét: {config.thu_muc_bienban}")
 
@@ -122,8 +122,9 @@ def run(config: Config, date_overrides: Optional[dict[str, str]] = None) -> dict
 
     df_out = pd.DataFrame(rows)
 
-    config.ensure_dirs()
-    df_out.to_excel(config.file_so_ban, index=False)
+    if write_file:
+        config.ensure_dirs()
+        df_out.to_excel(config.file_so_ban, index=False)
 
     so_lap = int((df_out["Số lần xuất hiện"] > 1).sum())
 
