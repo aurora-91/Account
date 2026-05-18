@@ -172,14 +172,17 @@ def _read_file(fp: str, config: Config, ten_kho_override: str = ""):
             xls = pd.ExcelFile(fp, engine="openpyxl")
 
         sheets = xls.sheet_names
+        sheets_lower = {s.strip().lower(): s for s in sheets}  
+        chuan = config.kho_sheet_chuan.strip().lower()
+        du_phong = [s.strip().lower() for s in config.kho_sheet_du_phong]
 
-        to_read = (
-            [config.kho_sheet_chuan]
-            if config.kho_sheet_chuan in sheets
-            else [s for s in config.kho_sheet_du_phong if s in sheets]
-        )
+        if chuan in sheets_lower:
+            to_read = [sheets_lower[chuan]]
+        else:
+            to_read = [sheets_lower[s] for s in du_phong if s in sheets_lower]
 
         if not to_read:
+            logger.warning(f"⚠ {name}: không khớp sheet nào. Sheets có: {sheets}")
             return None
 
         parts = [_read_sheet(xls, s, ten_kho_override or name) for s in to_read]
